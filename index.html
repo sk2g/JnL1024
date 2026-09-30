@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>J &amp; L · 我們結婚了</title>
+    <meta name="description" content="J 與 L 的婚禮邀請網站" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Sans+TC:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="logo" href="#top">J &amp; L</a>
+      <button class="nav-toggle" type="button" aria-label="開啟選單">☰</button>
+      <nav>
+        <a href="#story">我們的故事</a>
+        <a href="#details">婚禮資訊</a>
+        <a href="#schedule">當日流程</a>
+        <a href="#gallery">照片</a>
+        <a href="#rsvp">祝福</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <p class="eyebrow">Save the Date</p>
+        <h1>J <span>&amp;</span> L</h1>
+        <p class="hero-date">2026.12.12 · 星期六</p>
+        <p class="hero-place">台北 · 敬請期待正式邀請</p>
+        <div class="countdown" id="countdown" aria-label="婚禮倒數">
+          <div><strong id="days">--</strong><span>天</span></div>
+          <div><strong id="hours">--</strong><span>時</span></div>
+          <div><strong id="minutes">--</strong><span>分</span></div>
+          <div><strong id="seconds">--</strong><span>秒</span></div>
+        </div>
+      </section>
+
+      <section id="story" class="section">
+        <h2>我們的故事</h2>
+        <p class="lead">從相遇、相知到決定一起走下去。</p>
+        <div class="timeline">
+          <article>
+            <h3>相遇</h3>
+            <p>在一次不經意的碰面裡，對話比預計的更長，後來成了我們最喜歡提起的開頭。</p>
+          </article>
+          <article>
+            <h3>相守</h3>
+            <p>一起走過日常與遠行，學會在小事裡互相照顧，也在大事裡彼此站在同一邊。</p>
+          </article>
+          <article>
+            <h3>約定</h3>
+            <p>我們決定把承諾說給親愛的家人和朋友聽，邀請你來見證這一天。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="details" class="section alt">
+        <h2>婚禮資訊</h2>
+        <div class="cards">
+          <article>
+            <p class="label">日期</p>
+            <h3>2026 年 12 月 12 日</h3>
+            <p>星期六 · 下午 12:00 開始接待</p>
+          </article>
+          <article>
+            <p class="label">地點</p>
+            <h3>婚禮會場（待確認）</h3>
+            <p>台北市 · 完整地址將於邀請函更新</p>
+          </article>
+          <article>
+            <p class="label">服裝</p>
+            <h3>Semi-formal</h3>
+            <p>柔和色系最合適；現場會有拍照區</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="schedule" class="section">
+        <h2>當日流程</h2>
+        <ol class="schedule">
+          <li><time>12:00</time><span>賓客入場與拍照</span></li>
+          <li><time>12:30</time><span>儀式開始</span></li>
+          <li><time>13:30</time><span>宴席與敬酒</span></li>
+          <li><time>16:00</time><span>餘興與祝福</span></li>
+        </ol>
+      </section>
+
+      <section id="gallery" class="section alt">
+        <h2>照片</h2>
+        <p class="lead">先放幾張氛圍圖，之後可換成你們的合照。</p>
+        <div class="gallery">
+          <figure></figure>
+          <figure></figure>
+          <figure></figure>
+        </div>
+      </section>
+
+      <section id="rsvp" class="section">
+        <h2>留下祝福</h2>
+        <p class="lead">日期與場地確認後，我們會再寄出正式邀請。歡迎先寫一句話給我們。</p>
+        <form class="rsvp-form" id="blessing-form">
+          <label>
+            姓名
+            <input name="name" type="text" required placeholder="您的名字" />
+          </label>
+          <label>
+            與新人關係
+            <input name="relation" type="text" placeholder="家人 / 朋友 / 同事" />
+          </label>
+          <label>
+            祝福
+            <textarea name="message" rows="4" required placeholder="想對 J &amp; L 說的話"></textarea>
+          </label>
+          <button type="submit">送出祝福</button>
+          <p class="form-note" id="form-note" hidden>謝謝你。這是示範表單，之後可接上真正的回覆服務。</p>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>J &amp; L · With love</p>
+      <p>請把日期、地點與故事改成你們的真實內容。</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
