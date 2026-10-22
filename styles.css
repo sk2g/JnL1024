@@ -119,6 +119,7 @@ input {
 
 .hero h1 {
   margin: 0;
+  font-family: "Noto Sans TC", Roboto, sans-serif;
   font-size: clamp(3.2rem, 8vw, 4.8rem);
   font-weight: 300;
   letter-spacing: 0.08em;
@@ -208,11 +209,12 @@ input {
 .script {
   margin: 0;
   text-align: center;
+  font-family: "Noto Sans TC", Roboto, sans-serif;
   font-size: clamp(2rem, 4vw, 2.6rem);
-  font-weight: 400;
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  letter-spacing: 0;
   color: #5d5d5d;
-  line-height: 1.1;
+  line-height: 1.3;
 }
 
 .lead,
@@ -254,8 +256,9 @@ input {
 
 .gallery-guide h3 {
   margin: 0 0 0.45rem;
+  font-family: "Noto Sans TC", Roboto, sans-serif;
   font-size: 1.35rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .gallery-guide ol {
@@ -511,10 +514,10 @@ input {
 }
 
 .table-index {
-  font-family: Roboto, "Noto Sans TC", sans-serif;
-  font-size: 1.35rem;
-  font-weight: 400;
-  line-height: 1;
+  font-family: "Noto Sans TC", Roboto, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
 .table-note {
@@ -553,8 +556,9 @@ input {
 
 .table-card h3 {
   margin: 0;
+  font-family: "Noto Sans TC", Roboto, sans-serif;
   font-size: 1.35rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .card-note {
