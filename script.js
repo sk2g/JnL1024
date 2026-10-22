@@ -227,6 +227,10 @@ function renderGallery() {
   if (!photos.length) galleryRoot.append(renderGuide());
 }
 
+function tableCaption(table) {
+  return table.label ? `第 ${table.id} 桌　${table.label}` : `第 ${table.id} 桌`;
+}
+
 function renderSeating() {
   hall.replaceChildren();
   tableList.replaceChildren();
@@ -236,30 +240,33 @@ function renderSeating() {
   (data.tables || []).forEach((table) => {
     const dot = document.createElement("button");
     dot.type = "button";
-    dot.className = `table-dot${table.id === "main" ? " is-main" : ""}`;
+    dot.className = `table-dot${table.label === "主桌" ? " is-main" : ""}`;
     dot.dataset.table = table.id;
-    const shortLabel = table.id === "main" ? "主桌" : String(table.id);
-    dot.setAttribute("aria-label", `${table.label}${table.note ? `，${table.note}` : ""}`);
-    dot.append(el("span", "table-index", shortLabel));
-    if (table.note) dot.append(el("span", "table-note", table.note));
+    dot.setAttribute("aria-label", tableCaption(table));
+    dot.append(el("span", "table-index", String(table.id)));
+    if (table.label) dot.append(el("span", "table-note", table.label));
     dot.addEventListener("click", () => focusTable(table.id));
     map.append(dot);
 
     const card = el("article", "table-card");
     card.id = `table-${table.id}`;
     card.dataset.table = table.id;
-    card.append(el("h3", "", table.label));
+    card.append(el("p", "card-kicker", `第 ${table.id} 桌`));
+    card.append(el("h3", "", table.label || `第 ${table.id} 桌`));
     if (table.note) card.append(el("p", "card-note", table.note));
-    const list = el("ul", "guest-list");
-    (table.guests || []).forEach((guest) => {
-      const item = document.createElement("li");
-      item.dataset.blob = guestBlob(guest);
-      item.append(el("span", "guest-name", guest.name || ""));
-      const extra = guestExtra(guest);
-      if (extra) item.append(el("span", "guest-title", extra));
-      list.append(item);
-    });
-    card.append(list);
+    const guests = table.guests || [];
+    if (guests.length) {
+      const list = el("ul", "guest-list");
+      guests.forEach((guest) => {
+        const item = document.createElement("li");
+        item.dataset.blob = guestBlob(guest);
+        item.append(el("span", "guest-name", guest.name || ""));
+        const extra = guestExtra(guest);
+        if (extra) item.append(el("span", "guest-title", extra));
+        list.append(item);
+      });
+      card.append(list);
+    }
     tableList.append(card);
   });
 
@@ -318,7 +325,7 @@ function searchGuests(raw, options = {}) {
   }
 
   const summary = matches.length === 1
-    ? `${matches[0].guest.name} 在${matches[0].table.label}。`
+    ? `${matches[0].guest.name} 在${tableCaption(matches[0].table)}。`
     : `找到 ${matches.length} 位，請點名字查看桌次。`;
   resultBox.append(el("p", "", summary));
 
@@ -333,7 +340,7 @@ function searchGuests(raw, options = {}) {
       who.append(el("span", "result-name", guest.name || ""));
       const extra = guestExtra(guest);
       if (extra) who.append(el("span", "result-title", extra));
-      button.append(who, el("span", "result-table", table.label));
+      button.append(who, el("span", "result-table", tableCaption(table)));
       button.addEventListener("click", () => focusTable(table.id));
       list.append(button);
     });

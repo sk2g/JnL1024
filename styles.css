@@ -498,19 +498,22 @@ input {
 }
 
 .table-dot {
-  width: 6.3rem;
-  height: 6.3rem;
+  width: 7.4rem;
+  height: 7.4rem;
+  padding: 0.65rem;
   border-radius: 50%;
   display: grid;
   place-items: center;
   align-content: center;
+  gap: 0.12rem;
+  text-align: center;
   background: radial-gradient(circle at 35% 30%, #fff, #f0f0ee 74%);
   border: 1px solid #cfcfcf;
 }
 
 .table-dot.is-main {
-  width: 7.2rem;
-  height: 7.2rem;
+  border-color: #b7b7b7;
+  background: radial-gradient(circle at 35% 30%, #fff, #e7eee7 74%);
 }
 
 .table-index {
@@ -521,8 +524,10 @@ input {
 }
 
 .table-note {
-  max-width: 5rem;
+  max-width: 5.5rem;
   font-size: 0.72rem;
+  line-height: 1.25;
+  text-align: center;
   color: var(--muted);
 }
 
@@ -552,6 +557,12 @@ input {
 .table-card {
   padding: 1rem 1.05rem 0.7rem;
   scroll-margin: 5.2rem;
+}
+
+.card-kicker {
+  margin: 0 0 0.15rem;
+  color: var(--muted);
+  font-size: 0.82rem;
 }
 
 .table-card h3 {
