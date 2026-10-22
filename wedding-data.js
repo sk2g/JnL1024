@@ -8,6 +8,7 @@ window.WEDDING = {
   partnerA: "J",
   partnerB: "L",
   dateLabel: "2026.10.24",
+  dateISO: "2026-10-24T12:00:00+08:00",
   weekday: "星期六",
   timeLabel: "",
   venue: "",

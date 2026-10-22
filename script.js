@@ -91,12 +91,39 @@ function guestExtra(guest) {
   return parts.join(" · ");
 }
 
+function pad(value) {
+  return String(value).padStart(2, "0");
+}
+
+function tick() {
+  const weddingDate = data.dateISO ? new Date(data.dateISO) : null;
+  const diff = weddingDate ? Math.max(0, weddingDate.getTime() - Date.now()) : 0;
+  document.getElementById("days").textContent = pad(Math.floor(diff / 86400000));
+  document.getElementById("hours").textContent = pad(Math.floor((diff % 86400000) / 3600000));
+  document.getElementById("minutes").textContent = pad(Math.floor((diff % 3600000) / 60000));
+  document.getElementById("seconds").textContent = pad(Math.floor((diff % 60000) / 1000));
+}
+
+function renderDay() {
+  const grid = document.getElementById("info-grid");
+  if (!grid) return;
+  const card = el("article", "info-card");
+  card.append(el("p", "info-label", "婚禮"));
+  const row = el("div", "info-row");
+  row.append(el("p", "", data.dateLabel || ""));
+  if (data.timeLabel) row.append(el("p", "", data.timeLabel));
+  else if (data.weekday) row.append(el("p", "", data.weekday));
+  card.append(row);
+  if (data.venue) card.append(el("p", "info-place", data.venue));
+  if (data.timeLabel && data.weekday) card.append(el("p", "info-place", data.weekday));
+  grid.replaceChildren(card);
+}
+
 function fillHero() {
   const nameA = data.partnerA || "J";
   const nameB = data.partnerB || "L";
   document.getElementById("name-a").textContent = nameA;
   document.getElementById("name-b").textContent = nameB;
-  document.querySelector(".logo").textContent = `${nameA} & ${nameB}`;
   document.getElementById("hero-date").textContent = data.dateLabel || "";
   const meta = [data.weekday, data.timeLabel, data.venue].filter(Boolean).join(" · ");
   const sub = document.getElementById("hero-sub");
@@ -104,6 +131,7 @@ function fillHero() {
   sub.hidden = !meta;
   document.title = `${nameA} & ${nameB} · 1024`;
   document.getElementById("sample-note").hidden = !data.sampleSeating;
+  tick();
 }
 
 function renderGuide() {
@@ -318,8 +346,17 @@ function searchGuests(raw, options = {}) {
 }
 
 fillHero();
+renderDay();
 renderGallery();
 renderSeating();
+setInterval(tick, 1000);
+
+const topnav = document.querySelector(".topnav");
+function syncNav() {
+  topnav.classList.toggle("is-solid", window.scrollY > window.innerHeight * 0.72);
+}
+syncNav();
+window.addEventListener("scroll", syncNav, { passive: true });
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();

@@ -5,58 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>J &amp; L · 1024</title>
     <meta name="description" content="J 與 L 的婚禮網站。查看 Google Drive 婚照，並用姓名或稱呼找到自己的桌次。" />
-    <meta name="theme-color" content="#f6efe8" />
+    <meta name="theme-color" content="#d7d7d2" />
     <meta property="og:title" content="J &amp; L · 1024" />
     <meta property="og:description" content="查看婚照與座位表。" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23f6efe8' width='64' height='64' rx='14'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='22' fill='%23a6786c'%3EJ%26L%3C/text%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23f4f4f2' width='64' height='64'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Georgia' font-size='22' fill='%23666'%3EJ%26L%3C/text%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+TC:wght@300;400;500&family=Sacramento&family=Sofia+Sans+Condensed:wght@400;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body id="top">
-    <header class="nav">
-      <a class="logo" href="#top">J &amp; L</a>
+    <header class="topnav">
       <nav aria-label="頁面">
+        <a href="#top">封面</a>
+        <a href="#day">當日</a>
         <a href="#gallery">婚照</a>
-        <a href="#seating">座位表</a>
+        <a href="#seating">座位</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <p class="eyebrow">Our Wedding</p>
-        <h1><span id="name-a">J</span> <i>&amp;</i> <span id="name-b">L</span></h1>
-        <p class="hero-date" id="hero-date">2026.10.24</p>
-        <p class="hero-sub" id="hero-sub">星期六</p>
-        <p class="hero-note">歡迎來到我們的婚禮</p>
+        <svg class="branch" viewBox="0 0 420 720" aria-hidden="true">
+          <g fill="none" stroke="#7d8b78" stroke-linecap="round" stroke-width="2">
+            <path d="M40 700 C80 520 70 360 150 210" />
+            <path d="M92 560 C140 530 170 500 210 470" />
+            <path d="M108 470 C160 450 190 410 230 360" />
+            <path d="M128 390 C180 360 210 320 250 270" />
+            <path d="M146 300 C190 270 230 250 280 220" />
+          </g>
+          <g fill="#8fa08a">
+            <ellipse cx="214" cy="468" rx="28" ry="12" transform="rotate(-28 214 468)" />
+            <ellipse cx="186" cy="498" rx="24" ry="10" transform="rotate(24 186 498)" />
+            <ellipse cx="236" cy="358" rx="30" ry="12" transform="rotate(-18 236 358)" />
+            <ellipse cx="198" cy="392" rx="22" ry="9" transform="rotate(36 198 392)" />
+            <ellipse cx="258" cy="268" rx="26" ry="11" transform="rotate(-24 258 268)" />
+            <ellipse cx="214" cy="292" rx="20" ry="8" transform="rotate(20 214 292)" />
+            <ellipse cx="292" cy="214" rx="24" ry="10" transform="rotate(-12 292 214)" />
+            <ellipse cx="168" cy="214" rx="22" ry="9" transform="rotate(40 168 214)" />
+            <ellipse cx="150" cy="250" rx="18" ry="8" transform="rotate(-30 150 250)" />
+          </g>
+        </svg>
+        <div class="hero-inner">
+          <h1><span id="name-a">J</span> <i>&amp;</i> <span id="name-b">L</span></h1>
+          <svg class="heart" viewBox="0 0 64 58" aria-hidden="true">
+            <path d="M32 54C14 40 4 30 4 18 4 9 11 3 19 3c5 0 9 3 13 8 4-5 8-8 13-8 8 0 15 6 15 15 0 12-10 22-28 36z" />
+          </svg>
+          <p class="hero-date" id="hero-date">2026.10.24</p>
+          <p class="hero-sub" id="hero-sub">星期六</p>
+          <div class="clock" id="countdown" aria-label="距離婚禮">
+            <div><strong id="days">00</strong><span>天</span></div>
+            <div><strong id="hours">00</strong><span>時</span></div>
+            <div><strong id="minutes">00</strong><span>分</span></div>
+            <div><strong id="seconds">00</strong><span>秒</span></div>
+          </div>
+          <a class="pill" href="#seating">尋找座位</a>
+        </div>
+      </section>
+
+      <section id="day" class="section">
+        <h2 class="script">當日</h2>
+        <div class="info-grid" id="info-grid"></div>
       </section>
 
       <section id="gallery" class="section">
-        <header class="section-head">
-          <p class="eyebrow">Album</p>
-          <h2>婚照</h2>
-          <p class="lead">照片放在 Google Drive，可以在這裡直接看。</p>
-        </header>
+        <h2 class="script">婚照</h2>
+        <p class="lead">照片放在 Google Drive，可以在這裡直接看。</p>
         <div id="gallery-root"></div>
       </section>
 
       <section id="seating" class="section">
-        <header class="section-head">
-          <p class="eyebrow">Seating</p>
-          <h2>座位表</h2>
-          <p class="lead">輸入自己的姓名或稱呼，找出坐在哪一桌。</p>
-          <p class="sample-note" id="sample-note" hidden>這份座位表仍是範例。換成正式賓客後，請把 wedding-data.js 的 sampleSeating 改成 false。</p>
-        </header>
+        <h2 class="script">座位</h2>
+        <p class="lead">輸入自己的姓名或稱呼，找出坐在哪一桌。</p>
+        <p class="sample-note" id="sample-note" hidden>這份座位表仍是範例。換成正式賓客後，請把 wedding-data.js 的 sampleSeating 改成 false。</p>
 
         <form id="seat-form" class="search-form" role="search">
           <label class="sr-only" for="seat-query">姓名或稱呼</label>
           <input id="seat-query" name="q" type="search" enterkeyhint="search" autocomplete="name" placeholder="姓名、暱稱或稱呼" />
           <button class="text-button" id="search-clear" type="button" hidden>清除</button>
-          <button class="primary" type="submit">尋找座位</button>
         </form>
         <div id="search-result" class="search-result" aria-live="polite"></div>
-
         <div class="hall" id="hall" aria-label="桌次配置"></div>
         <div class="table-list" id="table-list"></div>
       </section>
