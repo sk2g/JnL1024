@@ -591,13 +591,30 @@ input {
   border-top: 1px solid #ececec;
 }
 
+.guest-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
 .guest-name {
   font-weight: 400;
 }
 
-.guest-title {
+.guest-count,
+.guest-title,
+.guest-diet {
   color: var(--muted);
   font-size: 0.84rem;
+}
+
+.guest-count {
+  white-space: nowrap;
+}
+
+.guest-diet {
+  color: var(--sage-deep);
 }
 
 .guest-list li.is-hit {

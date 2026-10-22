@@ -73,7 +73,12 @@ function imageCandidates(entry) {
 }
 
 function guestBlob(guest) {
-  return normalize([guest.name, guest.title, ...(guest.aliases || [])].filter(Boolean).join(" "));
+  return normalize([guest.name, guest.title, guest.diet, ...(guest.aliases || [])].filter(Boolean).join(" "));
+}
+
+function guestLabel(guest) {
+  const name = guest.name || "";
+  return guest.count > 1 ? `${name}（${guest.count} 位）` : name;
 }
 
 function guestExtra(guest) {
@@ -251,18 +256,23 @@ function renderSeating() {
     const card = el("article", "table-card");
     card.id = `table-${table.id}`;
     card.dataset.table = table.id;
-    card.append(el("p", "card-kicker", `第 ${table.id} 桌`));
+    const guests = table.guests || [];
+    const seats = guests.reduce((sum, guest) => sum + (Number(guest.count) || 1), 0);
+    card.append(el("p", "card-kicker", seats ? `第 ${table.id} 桌 · ${seats} 位` : `第 ${table.id} 桌`));
     card.append(el("h3", "", table.label || `第 ${table.id} 桌`));
     if (table.note) card.append(el("p", "card-note", table.note));
-    const guests = table.guests || [];
     if (guests.length) {
       const list = el("ul", "guest-list");
       guests.forEach((guest) => {
         const item = document.createElement("li");
         item.dataset.blob = guestBlob(guest);
-        item.append(el("span", "guest-name", guest.name || ""));
+        const line = el("span", "guest-line");
+        line.append(el("span", "guest-name", guest.name || ""));
+        if (guest.count > 1) line.append(el("span", "guest-count", `${guest.count} 位`));
+        item.append(line);
         const extra = guestExtra(guest);
         if (extra) item.append(el("span", "guest-title", extra));
+        if (guest.diet) item.append(el("span", "guest-diet", guest.diet));
         list.append(item);
       });
       card.append(list);
@@ -325,7 +335,7 @@ function searchGuests(raw, options = {}) {
   }
 
   const summary = matches.length === 1
-    ? `${matches[0].guest.name} 在${tableCaption(matches[0].table)}。`
+    ? `${guestLabel(matches[0].guest)} 在${tableCaption(matches[0].table)}。`
     : `找到 ${matches.length} 位，請點名字查看桌次。`;
   resultBox.append(el("p", "", summary));
 
@@ -337,8 +347,8 @@ function searchGuests(raw, options = {}) {
       button.type = "button";
       button.className = "result-person";
       const who = el("span", "who");
-      who.append(el("span", "result-name", guest.name || ""));
-      const extra = guestExtra(guest);
+      who.append(el("span", "result-name", guestLabel(guest)));
+      const extra = [guestExtra(guest), guest.diet].filter(Boolean).join(" · ");
       if (extra) who.append(el("span", "result-title", extra));
       button.append(who, el("span", "result-table", tableCaption(table)));
       button.addEventListener("click", () => focusTable(table.id));
