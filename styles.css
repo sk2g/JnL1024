@@ -21,7 +21,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--paper);
-  font-family: "Noto Sans TC", sans-serif;
+  font-family: "Noto Sans TC", Roboto, sans-serif;
   font-weight: 300;
   line-height: 1.7;
 }
@@ -119,10 +119,10 @@ input {
 
 .hero h1 {
   margin: 0;
-  font-family: Sacramento, "Ma Shan Zheng", cursive;
-  font-size: clamp(4.4rem, 12vw, 6.6rem);
-  font-weight: 400;
-  line-height: 0.9;
+  font-size: clamp(3.2rem, 8vw, 4.8rem);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
 }
 
 .hero h1 i {
@@ -166,9 +166,9 @@ input {
 
 .clock strong {
   display: block;
-  font-family: "Sofia Sans Condensed", "Noto Sans TC", sans-serif;
+  font-family: Roboto, "Noto Sans TC", sans-serif;
   font-size: 2.15rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.04em;
   line-height: 1;
 }
@@ -208,9 +208,9 @@ input {
 .script {
   margin: 0;
   text-align: center;
-  font-family: "Ma Shan Zheng", cursive;
-  font-size: clamp(3.4rem, 8vw, 5.2rem);
+  font-size: clamp(2rem, 4vw, 2.6rem);
   font-weight: 400;
+  letter-spacing: 0.12em;
   color: #5d5d5d;
   line-height: 1.1;
 }
@@ -254,8 +254,7 @@ input {
 
 .gallery-guide h3 {
   margin: 0 0 0.45rem;
-  font-family: "Ma Shan Zheng", cursive;
-  font-size: 2rem;
+  font-size: 1.35rem;
   font-weight: 400;
 }
 
@@ -512,8 +511,9 @@ input {
 }
 
 .table-index {
-  font-family: "Ma Shan Zheng", cursive;
-  font-size: 1.55rem;
+  font-family: Roboto, "Noto Sans TC", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 400;
   line-height: 1;
 }
 
@@ -553,8 +553,7 @@ input {
 
 .table-card h3 {
   margin: 0;
-  font-family: "Ma Shan Zheng", cursive;
-  font-size: 2rem;
+  font-size: 1.35rem;
   font-weight: 400;
 }
 
