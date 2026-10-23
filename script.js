@@ -126,6 +126,14 @@ function renderDay() {
   renderTimeline();
 }
 
+function externalLink(className, label, href) {
+  const link = el("a", className, label);
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  return link;
+}
+
 function renderTimeline() {
   const root = document.getElementById("timeline");
   if (!root) return;
@@ -136,7 +144,12 @@ function renderTimeline() {
     const station = el("article", "station");
     station.append(el("p", "station-stop", stop.stop || ""));
     station.append(el("h3", "", stop.title || ""));
-    if (stop.place) station.append(el("p", "station-place", stop.place));
+    if (stop.place) {
+      const place = el("p", "station-place");
+      if (stop.map) place.append(externalLink("map-link", stop.place, stop.map));
+      else place.textContent = stop.place;
+      station.append(place);
+    }
     const events = el("ol", "events");
     (stop.events || []).forEach((item) => {
       const li = document.createElement("li");
@@ -164,6 +177,24 @@ function renderTimeline() {
       events.append(li);
     });
     station.append(events);
+    if (stop.parking?.spots?.length) {
+      const box = el("div", "parking");
+      box.append(el("p", "parking-title", stop.parking.title || "附近停車"));
+      const list = el("ul", "parking-list");
+      stop.parking.spots.forEach((spot) => {
+        const item = document.createElement("li");
+        item.append(externalLink("map-link", spot.name, spot.href));
+        list.append(item);
+      });
+      box.append(list);
+      station.append(box);
+    }
+    if (stop.transport?.href) {
+      const line = el("p", "transport");
+      if (stop.transport.text) line.append(document.createTextNode(`${stop.transport.text} `));
+      line.append(externalLink("map-link", stop.transport.label || "官網", stop.transport.href));
+      station.append(line);
+    }
     root.append(station);
   });
 }

@@ -496,8 +496,48 @@ input {
 }
 
 .station-place {
-  margin: 0.2rem 0 1rem;
+  margin: 0.2rem 0 0.7rem;
   color: var(--muted);
+  font-size: 1rem;
+}
+
+.map-link {
+  color: #3d6b4f;
+  font-weight: 500;
+  text-underline-offset: 0.18em;
+}
+
+.transport {
+  margin: 0 0 0.9rem;
+  font-size: 1rem;
+}
+
+.parking {
+  margin: 0.15rem 0 1rem;
+}
+
+.parking-title {
+  margin: 0 0 0.45rem;
+  font-size: 1rem;
+}
+
+.parking-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.parking-list .map-link {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.75rem;
+  background: #f3f7f2;
+  border-radius: 0.45rem;
+  text-decoration: none;
+  line-height: 1.45;
 }
 
 .events {
@@ -1098,6 +1138,10 @@ dialog p {
     width: 2.5rem;
     height: 2.5rem;
     margin-top: -1.25rem;
+  }
+
+  .parking-list .map-link {
+    padding-right: 4.2rem;
   }
 }
 

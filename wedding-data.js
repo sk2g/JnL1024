@@ -19,8 +19,26 @@ window.WEDDING = {
       stop: "第一站",
       title: "聖家堂婚配彌撒",
       place: "臺北市天主教聖家堂",
+      map: "https://www.google.com/maps/search/?api=1&query=%E5%A4%A9%E4%B8%BB%E6%95%99%E8%87%BA%E5%8C%97%E8%81%96%E5%AE%B6%E5%A0%82%20%E6%96%B0%E7%94%9F%E5%8D%97%E8%B7%AF%E4%BA%8C%E6%AE%B550%E8%99%9F",
+      parking: {
+        title: "開車的朋友，附近停車點如下",
+        spots: [
+          {
+            name: "金華公園地下停車場",
+            href: "https://www.google.com/maps/search/?api=1&query=%E9%87%91%E8%8F%AF%E5%85%AC%E5%9C%92%E5%9C%B0%E4%B8%8B%E5%81%9C%E8%BB%8A%E5%A0%B4%20%E9%87%91%E8%8F%AF%E8%A1%97190%E8%99%9F",
+          },
+          {
+            name: "青田街收費停車場",
+            href: "https://www.google.com/maps/search/?api=1&query=%E9%9D%92%E7%94%B0%E8%A1%97%E6%94%B6%E8%B2%BB%E5%81%9C%E8%BB%8A%E5%A0%B4%20%E9%9D%92%E7%94%B0%E8%A1%977%E5%B7%B79%E8%99%9F",
+          },
+          {
+            name: "大安森林公園地下停車場（信義路出口）",
+            href: "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E5%AE%89%E6%A3%AE%E6%9E%97%E5%85%AC%E5%9C%92%E5%9C%B0%E4%B8%8B%E5%81%9C%E8%BB%8A%E5%A0%B4%20%E4%BF%A1%E7%BE%A9%E8%B7%AF%E5%87%BA%E5%85%A5%E5%8F%A3",
+          },
+        ],
+      },
       events: [
-        { time: "13:30–13:50", title: "開放入座" },
+        { time: "13:30–13:50", title: "入座" },
         {
           time: "14:00",
           title: "儀式開始",
@@ -48,15 +66,21 @@ window.WEDDING = {
       stop: "第二站",
       title: "喜來登飯店晚宴",
       place: "喜來登飯店 · 瑞穗園",
+      map: "https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8C%97%E5%96%9C%E4%BE%86%E7%99%BB%E5%A4%A7%E9%A3%AF%E5%BA%97%20%E5%BF%A0%E5%AD%9D%E6%9D%B1%E8%B7%AF%E4%B8%80%E6%AE%B512%E8%99%9F",
+      transport: {
+        text: "交通資訊請參考",
+        label: "喜來登飯店官網",
+        href: "https://www.sheratongrandtaipei.com/?cat=5&id=33&lang=zh-tw",
+      },
       events: [
         { time: "18:00", title: "入席" },
         {
-          time: "18:30",
+          time: "18:20",
           title: "開席",
-          note: "主婚人與新人進場、倒香檳、致詞、舉杯，接著由神父祝福。",
+          note: "席間邀請天主教的主禮神父帶領，進行降福與餐前禱告。",
           stagesTitle: "晚宴流程",
           stages: [
-            "18:30 進場、倒香檳、致詞、舉杯、神父祝福",
+            "18:20 進場、倒香檳、致詞、舉杯、神父祝福",
             "開席後新人於主桌用餐",
             "19:30 微電影與第二次進場",
             "19:40–20:00 逐桌敬酒",
