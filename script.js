@@ -83,18 +83,107 @@ function guestLabel(guest) {
 }
 
 function guestExtra(guest) {
-  const nameKey = normalize(guest.name);
-  const parts = [];
-  [guest.title, ...(guest.aliases || [])].filter(Boolean).forEach((part) => {
-    const key = normalize(part);
-    if (!key || key === nameKey) return;
-    const alreadyShown = parts.some((existing) => {
-      const existingKey = normalize(existing);
-      return existingKey.includes(key) || key.includes(existingKey);
-    });
-    if (!alreadyShown) parts.push(part);
+  const title = String(guest.title || "").trim();
+  if (!title || normalize(title) === normalize(guest.name)) return "";
+  return title;
+}
+
+const TITLE_NOTE = /老公|老婆|丈夫|太太|男友|女友|女兒|兒子|爸爸|媽媽|父親|母親|先生|小姐|老師/;
+
+function parseGuestLabel(raw) {
+  const text = String(raw || "").replace(/\s+/g, " ").trim();
+  const wrapped = text.match(/^(.*?)\s*[(（]([^()（）]*)[)）]\s*$/);
+  if (!wrapped) return { name: text, title: "", aliases: [], count: 1 };
+  const name = wrapped[1].trim();
+  const inside = wrapped[2].trim();
+  if (/^\d+\s*位?$/.test(inside)) {
+    return { name, title: "", aliases: [], count: Number.parseInt(inside, 10) || 1 };
+  }
+  const titles = [];
+  const aliases = [];
+  inside.split(/[,，、]/).map((part) => part.trim()).filter(Boolean).forEach((part) => {
+    if (TITLE_NOTE.test(part)) titles.push(part);
+    else aliases.push(part);
   });
-  return parts.join(" · ");
+  return { name, title: titles.join("、"), aliases, count: 1 };
+}
+
+function tablesFromSheet(payload) {
+  const table = payload && payload.table;
+  if (!table || payload.status === "error") return [];
+  const headers = (table.cols || []).map((col) => String(col.label || "").trim());
+  const nameCol = headers.findIndex((header) => header.includes("姓名") || (header.includes("稱呼") && !header.startsWith("暱稱")));
+  const aliasCol = headers.findIndex((header) => header.startsWith("暱稱"));
+  const titleCol = headers.findIndex((header) => header.startsWith("稱位") || header.startsWith("稱謂"));
+  const tableCol = headers.findIndex((header) => header.includes("桌號"));
+  const labelCol = headers.findIndex((header) => header.includes("桌名"));
+  const dietCol = headers.findIndex((header) => header.includes("飲食") || header.includes("備註"));
+  if (nameCol < 0 || tableCol < 0) return [];
+
+  const tables = [];
+  const byId = new Map();
+  (table.rows || []).forEach((row) => {
+    const cells = (row.c || []).map((cell) => (cell && cell.v != null ? String(cell.v).trim() : ""));
+    const parsed = parseGuestLabel(cells[nameCol]);
+    const id = cells[tableCol];
+    if (!parsed.name || !id) return;
+    const extraAliases = aliasCol >= 0
+      ? cells[aliasCol].split(/[,，、]/).map((part) => part.trim()).filter(Boolean)
+      : [];
+    const title = [parsed.title, titleCol >= 0 ? cells[titleCol] : ""].filter(Boolean).join("、");
+    const diet = dietCol >= 0 ? cells[dietCol] : "";
+    const aliases = [...parsed.aliases, ...extraAliases];
+    let current = byId.get(id);
+    if (!current) {
+      current = { id, label: labelCol >= 0 ? cells[labelCol] : "", guests: new Map() };
+      byId.set(id, current);
+      tables.push(current);
+    } else if (!current.label && labelCol >= 0 && cells[labelCol]) {
+      current.label = cells[labelCol];
+    }
+    const key = [normalize(parsed.name), normalize(title), normalize(diet), aliases.map(normalize).join("|")].join("~");
+    const existing = current.guests.get(key);
+    if (existing) existing.count += parsed.count;
+    else current.guests.set(key, { name: parsed.name, title, diet, aliases, count: parsed.count });
+  });
+
+  return tables
+    .sort((a, b) => Number(a.id) - Number(b.id))
+    .map((current) => ({
+      id: current.id,
+      label: current.label,
+      guests: [...current.guests.values()].map((guest) => {
+        const item = { name: guest.name };
+        if (guest.count > 1) item.count = guest.count;
+        if (guest.title) item.title = guest.title;
+        if (guest.diet) item.diet = guest.diet;
+        if (guest.aliases.length) item.aliases = guest.aliases;
+        return item;
+      }),
+    }));
+}
+
+function loadSeatingSheet() {
+  const id = String(data.seatingSheetId || "").trim();
+  if (!id) return;
+  const callback = `jnlSeating_${Date.now()}`;
+  const script = document.createElement("script");
+  window[callback] = (payload) => {
+    delete window[callback];
+    script.remove();
+    const tables = tablesFromSheet(payload);
+    if (!tables.length) return;
+    data.tables = tables;
+    const query = queryInput.value;
+    renderSeating();
+    if (query) searchGuests(query);
+  };
+  script.onerror = () => {
+    delete window[callback];
+    script.remove();
+  };
+  script.src = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(id)}/gviz/tq?tqx=out:json;responseHandler:${callback}&t=${Date.now()}`;
+  document.head.append(script);
 }
 
 function pad(value) {
@@ -653,6 +742,7 @@ fillHero();
 renderDay();
 renderGallery();
 renderSeating();
+loadSeatingSheet();
 setInterval(tick, 1000);
 
 const topnav = document.querySelector(".topnav");

@@ -1,8 +1,10 @@
-/* 修改這個檔案即可更新網站。
-   driveFolder：貼上 Google Drive 資料夾的分享連結（知道連結的任何人可檢視）
-   photos：左右滑動的照片。每一項是一張 Google Drive 檔案的分享連結
-   tables：座位。id 是桌號，label 是桌名。
-   guests：name 是姓名或稱呼，title 是補充，diet 是飲食備註，count 是同一稱呼的人數
+/* 座位請改 Google 試算表，網站每次開啟都會讀取最新內容。
+   姓名欄寫本名或稱位。暱稱放括號，只供搜尋、頁面上不顯示：吳政霖 (毛毛)
+   括號裡只有數字代表人數：雪岑姊姊 (3)
+   關係稱位仍會顯示：小劉(佩妘老公)
+   飲食備註寫在第四欄。tables 是試算表讀不到時的備用名單。
+   driveFolder：Google Drive 資料夾分享連結（知道連結的任何人可檢視）
+   photos：左右滑動的照片，每一項是一張檔案的分享連結
    schedule：當天行程。events 是時間軸，stages 是可展開的階段
 */
 window.WEDDING = {
@@ -14,6 +16,7 @@ window.WEDDING = {
   timeLabel: "",
   venue: "",
   sampleSeating: false,
+  seatingSheetId: "1Z8Iyr9kMErYO-3y-Xtzv5jTE7zu61kBXsxR6CfNpu4g",
   schedule: [
     {
       stop: "第一站",
@@ -218,8 +221,8 @@ window.WEDDING = {
         { name: "二姑爹" },
         { name: "玉春姑姑", count: 3 },
         { name: "恬" },
-        { name: "林東慶" },
-        { name: "林楚惟", diet: "嬰兒椅" },
+        { name: "林東慶", aliases: ["米奇"] },
+        { name: "林楚惟", aliases: ["勾比"], diet: "嬰兒椅" },
         { name: "東慶爸", diet: "素食" },
         { name: "東慶媽", diet: "素食" },
       ],
@@ -289,10 +292,10 @@ window.WEDDING = {
         { name: "櫻木" },
         { name: "GC" },
         { name: "晴妹", diet: "嬰兒椅" },
-        { name: "詩旋" },
-        { name: "佳碩" },
-        { name: "毛毛" },
-        { name: "成康" },
+        { name: "古詩旋" },
+        { name: "劉佳碩" },
+        { name: "吳政霖", aliases: ["毛毛"] },
+        { name: "余成康", aliases: ["太陽", "北寶", "康寶"] },
         { name: "雅琳" },
         { name: "小毅" },
       ],
