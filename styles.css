@@ -288,20 +288,24 @@ input {
 }
 
 .photo-deck {
+  --photo-height: min(50vh, 30rem);
   position: relative;
-  width: min(40rem, 100%);
+  width: 100%;
   margin: 0 auto;
 }
 
 .photo-reel {
   display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  background: #f7f6f2;
-  border: 1px solid var(--line);
+  background: transparent;
+  border: 0;
+  padding-inline: max(1.25rem, calc(50% - 7rem));
 }
 
 .photo-reel::-webkit-scrollbar {
@@ -309,27 +313,42 @@ input {
 }
 
 .photo-slide {
-  flex: 0 0 100%;
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
+  flex: 0 0 auto;
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  display: grid;
-  place-items: center;
   margin: 0;
-  overflow: hidden;
-  min-height: min(68vh, 40rem);
-  background: #f7f6f2;
+  background: transparent;
 }
 
-.photo-slide img {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  height: min(68vh, 40rem);
-  object-fit: contain;
+.photo-card {
+  width: max-content;
+  max-width: min(78vw, 46rem);
+}
+
+.photo-main,
+.photo-reflect {
   display: block;
+  min-width: 0;
+}
+
+.photo-main {
+  width: auto;
+  max-width: 100%;
+  height: var(--photo-height);
+  object-fit: contain;
+}
+
+.photo-reflect {
+  width: 100%;
+  height: 4.4rem;
+  margin-top: -1px;
+  object-fit: cover;
+  object-position: center bottom;
+  transform: scaleY(-1);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), transparent 68%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), transparent 68%);
+  pointer-events: none;
+  user-select: none;
 }
 
 .photo-slide.is-broken p,
@@ -342,7 +361,7 @@ input {
 
 .photo-nav {
   position: absolute;
-  top: 50%;
+  top: calc(var(--photo-height) / 2);
   z-index: 1;
   width: 2.75rem;
   height: 2.75rem;
@@ -358,11 +377,11 @@ input {
 }
 
 .photo-nav.is-prev {
-  left: 0.55rem;
+  left: 0.35rem;
 }
 
 .photo-nav.is-next {
-  right: 0.55rem;
+  right: 0.35rem;
 }
 
 .photo-nav:disabled {
@@ -1128,10 +1147,12 @@ dialog p {
 }
 
 @media (max-width: 640px) {
-  .photo-slide,
-  .photo-slide img {
-    min-height: 62vh;
-    height: 62vh;
+  .photo-deck {
+    --photo-height: 52vh;
+  }
+
+  .photo-reflect {
+    height: 3.1rem;
   }
 
   .photo-nav {

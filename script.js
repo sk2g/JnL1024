@@ -384,26 +384,38 @@ function renderCarousel(photos) {
     slide.setAttribute("aria-label", `第 ${index + 1} 張，共 ${photos.length} 張`);
     const candidates = imageCandidates(entry);
     const image = document.createElement("img");
+    const reflection = document.createElement("img");
+    image.className = "photo-main";
+    reflection.className = "photo-reflect";
     image.alt = entry.caption || `婚照 ${index + 1}`;
+    reflection.alt = "";
+    reflection.setAttribute("aria-hidden", "true");
     image.decoding = "async";
-    image.loading = index < 2 ? "eager" : "lazy";
+    reflection.decoding = "async";
+    const eager = index < 3 ? "eager" : "lazy";
+    image.loading = eager;
+    reflection.loading = eager;
     if (!candidates.length) {
       slide.classList.add("is-broken");
       slide.append(el("p", "", "這張照片暫時無法顯示"));
     } else {
+      const card = el("div", "photo-card");
       image.dataset.i = "0";
       image.src = candidates[0];
+      reflection.src = candidates[0];
       image.addEventListener("error", () => {
         const next = Number(image.dataset.i || 0) + 1;
         if (next < candidates.length) {
           image.dataset.i = String(next);
           image.src = candidates[next];
+          reflection.src = candidates[next];
           return;
         }
         slide.classList.add("is-broken");
-        image.replaceWith(el("p", "", "這張照片暫時無法顯示"));
+        card.replaceWith(el("p", "", "這張照片暫時無法顯示"));
       });
-      slide.append(image);
+      card.append(image, reflection);
+      slide.append(card);
     }
     reel.append(slide);
   });
@@ -421,9 +433,26 @@ function renderCarousel(photos) {
   const count = el("p", "photo-count", `1 / ${photos.length}`);
   count.setAttribute("aria-live", "polite");
 
+  const slides = () => [...reel.querySelectorAll(".photo-slide")];
+
+  const offsetFor = (index) => {
+    const slide = slides()[index];
+    if (!slide) return 0;
+    return Math.max(0, slide.offsetLeft + slide.offsetWidth / 2 - reel.clientWidth / 2);
+  };
+
   const currentIndex = () => {
-    const width = reel.clientWidth || 1;
-    return Math.max(0, Math.min(photos.length - 1, Math.round(reel.scrollLeft / width)));
+    const mid = reel.scrollLeft + reel.clientWidth / 2;
+    let best = 0;
+    let bestDist = Infinity;
+    slides().forEach((slide, index) => {
+      const dist = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - mid);
+      if (dist < bestDist) {
+        best = index;
+        bestDist = dist;
+      }
+    });
+    return best;
   };
 
   const sync = () => {
@@ -431,17 +460,26 @@ function renderCarousel(photos) {
     count.textContent = `${index + 1} / ${photos.length}`;
     prev.disabled = index <= 0;
     next.disabled = index >= photos.length - 1;
+    const slide = slides()[index];
+    if (!slide) return;
+    const deckBox = deck.getBoundingClientRect();
+    const slideBox = slide.getBoundingClientRect();
+    prev.style.left = `${Math.max(0.2, slideBox.left - deckBox.left - prev.offsetWidth - 8)}px`;
+    next.style.right = `${Math.max(0.2, deckBox.right - slideBox.right - next.offsetWidth - 8)}px`;
   };
 
-  const go = (delta) => {
-    const index = currentIndex() + delta;
-    if (index < 0 || index >= photos.length) return;
-    reel.scrollTo({ left: index * reel.clientWidth, behavior: "smooth" });
+  const goTo = (index, behavior) => {
+    const next = Math.max(0, Math.min(photos.length - 1, index));
+    reel.scrollTo({ left: offsetFor(next), behavior });
+    return next;
   };
+
+  const go = (delta) => goTo(currentIndex() + delta, "smooth");
 
   prev.addEventListener("click", () => go(-1));
   next.addEventListener("click", () => go(1));
   reel.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
   reel.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
@@ -453,6 +491,7 @@ function renderCarousel(photos) {
   });
 
   deck.append(reel, prev, next);
+  requestAnimationFrame(() => goTo(0, "instant"));
   return { deck, count, sync };
 }
 
