@@ -1,7 +1,8 @@
 const data = window.WEDDING || { tables: [], photos: [] };
 const galleryRoot = document.getElementById("gallery-root");
-const hall = document.getElementById("hall");
 const tableList = document.getElementById("table-list");
+const routeLayer = document.getElementById("route-layer");
+const floorplan = document.getElementById("floorplan");
 const resultBox = document.getElementById("search-result");
 const queryInput = document.getElementById("seat-query");
 const clearButton = document.getElementById("search-clear");
@@ -298,23 +299,70 @@ function searchSummary(matches) {
   )).join("\n");
 }
 
+const TABLE_SPOTS = {
+  1: [319.9, 291.8, 32],
+  2: [163.1, 257.4, 24],
+  3: [163.1, 337.4, 24],
+  4: [163.1, 421.2, 24],
+  5: [160.5, 504.4, 24],
+  6: [235.2, 270.2, 24],
+  7: [235.2, 350.2, 24],
+  8: [235.2, 434.0, 24],
+  9: [234.6, 515.4, 24],
+  10: [409.5, 238.7, 24],
+  11: [409.6, 318.8, 24],
+  12: [409.6, 403.3, 24],
+  13: [409.6, 479.2, 24],
+  14: [480.4, 220.2, 24],
+  15: [480.4, 303.9, 24],
+  16: [479.9, 384.6, 24],
+  17: [482.9, 463.1, 24],
+};
+
+const TABLE_ROUTES = {
+  1: [[293.6, 668], [293.6, 358], [319.9, 358], [319.9, 326]],
+  2: [[293.6, 668], [293.6, 305], [163.1, 305], [163.1, 278]],
+  3: [[293.6, 668], [293.6, 382], [163.1, 382], [163.1, 356]],
+  4: [[293.6, 668], [293.6, 468], [163.1, 468], [163.1, 442]],
+  5: [[293.6, 668], [293.6, 548], [160.5, 548], [160.5, 526]],
+  6: [[293.6, 668], [293.6, 390], [275, 390], [275, 270], [253, 270]],
+  7: [[293.6, 668], [293.6, 350], [257, 350]],
+  8: [[293.6, 668], [293.6, 434], [257, 434]],
+  9: [[293.6, 668], [293.6, 515], [253, 515]],
+  10: [[293.6, 668], [293.6, 360], [446, 360], [446, 239], [428, 239]],
+  11: [[293.6, 668], [293.6, 360], [391, 360], [391, 337]],
+  12: [[293.6, 668], [293.6, 403], [391, 403]],
+  13: [[293.6, 668], [293.6, 479], [391, 479]],
+  14: [[293.6, 668], [293.6, 360], [446, 360], [446, 220], [462, 220]],
+  15: [[293.6, 668], [293.6, 360], [446, 360], [446, 304], [462, 304]],
+  16: [[293.6, 668], [293.6, 440], [446, 440], [446, 385], [462, 385]],
+  17: [[293.6, 668], [293.6, 540], [483, 540], [483, 481]],
+};
+
+function svgEl(tag, attrs) {
+  const node = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
+  return node;
+}
+
+function drawRoute(id) {
+  if (!routeLayer) return;
+  routeLayer.replaceChildren();
+  const points = TABLE_ROUTES[id];
+  const spot = TABLE_SPOTS[id];
+  if (!points || !spot) return;
+  const drawn = points.map(([x, y]) => `${x},${y}`).join(" ");
+  routeLayer.append(
+    svgEl("polyline", { class: "route-halo", points: drawn }),
+    svgEl("polyline", { class: "route-line", points: drawn, "marker-end": "url(#route-arrow)" }),
+    svgEl("circle", { class: "table-spot", cx: spot[0], cy: spot[1], r: spot[2] })
+  );
+}
+
 function renderSeating() {
-  hall.replaceChildren();
   tableList.replaceChildren();
-  hall.append(el("p", "hall-label", "喜宴"));
-  const map = el("div", "table-map");
 
   (data.tables || []).forEach((table) => {
-    const dot = document.createElement("button");
-    dot.type = "button";
-    dot.className = `table-dot${table.label === "主桌" ? " is-main" : ""}`;
-    dot.dataset.table = table.id;
-    dot.setAttribute("aria-label", tableCaption(table));
-    dot.append(el("span", "table-index", String(table.id)));
-    if (table.label) dot.append(el("span", "table-note", table.label));
-    dot.addEventListener("click", () => focusTable(table.id));
-    map.append(dot);
-
     const card = el("article", "table-card");
     card.id = `table-${table.id}`;
     card.dataset.table = table.id;
@@ -341,19 +389,18 @@ function renderSeating() {
     }
     tableList.append(card);
   });
-
-  hall.append(map);
 }
 
 function paintSelection(id) {
   document.querySelectorAll("[data-table]").forEach((node) => {
     node.classList.toggle("is-selected", Boolean(id) && node.dataset.table === id);
   });
+  drawRoute(id);
 }
 
 function focusTable(id) {
   paintSelection(id);
-  document.getElementById(`table-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  floorplan?.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 function searchGuests(raw, options = {}) {
@@ -402,8 +449,8 @@ function searchGuests(raw, options = {}) {
   });
 
   const summary = matches.length === 1
-    ? `${guestLabel(matches[0].guest)} 在${tableCaption(matches[0].table)}。`
-    : searchSummary(matches);
+    ? `${guestLabel(matches[0].guest)} 在${tableCaption(matches[0].table)}。從入口沿著箭頭走到這一桌。`
+    : `${searchSummary(matches)}\n點一位，桌圖會從入口標出路線。`;
   resultBox.append(el("p", "", summary));
 
   if (matches.length > 1) {
@@ -464,4 +511,30 @@ lightbox.addEventListener("click", (event) => {
 
 lightbox.addEventListener("close", () => {
   lightboxImg.removeAttribute("src");
+});
+
+const jump = document.querySelector(".jump");
+const jumpToggle = document.querySelector(".jump-toggle");
+const jumpPanel = document.getElementById("jump-list");
+
+function setJump(open) {
+  if (!jumpToggle || !jumpPanel) return;
+  jumpToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  jumpPanel.hidden = !open;
+}
+
+jumpToggle?.addEventListener("click", () => {
+  setJump(jumpToggle.getAttribute("aria-expanded") !== "true");
+});
+
+jumpPanel?.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => setJump(false));
+});
+
+document.addEventListener("click", (event) => {
+  if (jump && !jump.contains(event.target)) setJump(false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setJump(false);
 });

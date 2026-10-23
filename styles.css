@@ -70,10 +70,10 @@ input {
 }
 
 .topnav a {
-  color: #fff;
+  color: #5c6358;
   text-decoration: none;
-  letter-spacing: 0.18em;
-  font-size: 0.92rem;
+  letter-spacing: 0.12em;
+  font-size: 0.95rem;
 }
 
 .topnav.is-solid {
@@ -88,26 +88,26 @@ input {
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;
   display: grid;
   place-items: center;
   overflow: hidden;
-  color: #fff;
+  color: #465046;
   text-align: center;
   background:
-    linear-gradient(180deg, rgba(118, 118, 112, 0.42), rgba(96, 96, 90, 0.5)),
-    radial-gradient(680px 480px at 16% 58%, rgba(176, 190, 170, 0.95), transparent 62%),
-    radial-gradient(900px 520px at 70% 40%, rgba(232, 232, 228, 0.55), transparent 60%),
-    #c5c5be;
-  padding: 6.5rem 1.2rem 4rem;
+    radial-gradient(560px 460px at 8% 58%, rgba(176, 198, 166, 0.72), transparent 68%),
+    radial-gradient(720px 520px at 88% 12%, rgba(255, 252, 246, 0.95), transparent 64%),
+    linear-gradient(180deg, #f8f7f2 0%, #eef4ea 46%, #f7f5f0 100%);
+  padding: 6.2rem 1.2rem 3.6rem;
 }
 
 .branch {
   position: absolute;
-  left: -2rem;
-  top: 8%;
-  width: min(46vw, 28rem);
+  left: -1.2rem;
+  top: 10%;
+  width: min(42vw, 26rem);
   height: auto;
-  opacity: 0.72;
+  opacity: 0.92;
   pointer-events: none;
 }
 
@@ -132,10 +132,10 @@ input {
 
 .heart {
   display: block;
-  width: 3.1rem;
+  width: 2.6rem;
   height: auto;
   margin: 0.35rem auto 0.8rem;
-  fill: rgba(255, 255, 255, 0.88);
+  fill: #8ea888;
 }
 
 .hero-date {
@@ -161,8 +161,10 @@ input {
 .clock div {
   width: 4.4rem;
   padding: 0.55rem 0.2rem 0.4rem;
-  border-radius: 0.35rem;
-  background: #1d1d1d;
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(143, 164, 138, 0.45);
+  color: #3e463d;
 }
 
 .clock strong {
@@ -196,8 +198,10 @@ input {
 
 .pill {
   margin-top: 1.35rem;
-  padding: 0.72rem 1.35rem;
-  font-size: 0.82rem;
+  padding: 0.78rem 1.4rem;
+  background: #6f866f;
+  color: #fff;
+  font-size: 0.95rem;
 }
 
 .section {
@@ -592,6 +596,118 @@ input {
   font-size: 0.86rem;
 }
 
+.floorplan {
+  position: relative;
+  width: min(44rem, 100%);
+  margin: 1.4rem auto 0;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.floorplan img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.floorplan svg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.jump {
+  position: fixed;
+  right: max(0.85rem, env(safe-area-inset-right));
+  bottom: max(0.9rem, env(safe-area-inset-bottom));
+  z-index: 6;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.jump-toggle {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #465046;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  box-shadow: 0 4px 16px rgba(70, 80, 70, 0.14);
+  cursor: pointer;
+}
+
+.jump-panel {
+  display: grid;
+  min-width: 7.5rem;
+  padding: 0.35rem;
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  box-shadow: 0 8px 24px rgba(70, 80, 70, 0.14);
+}
+
+.jump-panel[hidden] {
+  display: none;
+}
+
+.jump-panel a {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.2rem 0.85rem;
+  border-radius: 0.55rem;
+  color: #465046;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.jump-panel a:hover,
+.jump-panel a:focus-visible {
+  background: #eef4ea;
+}
+
+.entrance-label {
+  fill: #9a4a32;
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.route-halo,
+.route-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.route-halo {
+  stroke: #fff;
+  stroke-width: 7;
+}
+
+.route-line {
+  stroke: #c2410c;
+  stroke-width: 3.2;
+}
+
+#route-arrow path {
+  fill: #c2410c;
+}
+
+.table-spot {
+  fill: rgba(226, 91, 42, 0.46);
+  stroke: #c2410c;
+  stroke-width: 2.6;
+}
+
 .hall {
   margin-top: 1.6rem;
   padding: 1.3rem 0.8rem 1.15rem;
@@ -795,18 +911,83 @@ dialog p {
 @media (max-width: 640px) {
   .topnav {
     justify-content: center;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+  }
+
+  .topnav nav {
+    gap: 0.85rem;
+  }
+
+  .topnav a {
+    letter-spacing: 0.04em;
+    font-size: 0.95rem;
   }
 
   .branch {
-    opacity: 0.4;
+    opacity: 0.95;
+    width: 42vw;
+    left: -2.2rem;
+    top: 18%;
+  }
+
+  .hero {
+    padding: 5.4rem 1.15rem 2.8rem;
+  }
+
+  .hero h1 {
+    font-size: 2.65rem;
+  }
+
+  .hero-date {
+    font-size: 1.12rem;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+  }
+
+  .clock {
+    gap: 0.4rem;
   }
 
   .clock div {
-    width: 3.7rem;
+    width: 4.15rem;
   }
 
   .clock strong {
-    font-size: 1.7rem;
+    font-size: 1.85rem;
+  }
+
+  .clock span {
+    font-size: 0.8rem;
+  }
+
+  .section {
+    padding-top: 3.2rem;
+  }
+
+  .script {
+    font-size: 1.85rem;
+  }
+
+  .lead,
+  .event-note,
+  .station-place {
+    font-size: 1rem;
+  }
+
+  .table-note {
+    font-size: 0.82rem;
+  }
+
+  .hall-label {
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+  }
+
+  .card-kicker {
+    font-size: 0.95rem;
   }
 
   .search-form {
@@ -817,6 +998,7 @@ dialog p {
   .search-form input {
     width: 100%;
     flex-basis: 100%;
+    font-size: 1rem;
   }
 
   .result-person {

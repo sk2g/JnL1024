@@ -62,10 +62,6 @@ window.WEDDING = {
             "19:40–20:00 逐桌敬酒",
             "20:30 送客",
           ],
-          link: {
-            href: "https://drive.google.com/file/d/17VthVzeSFg7QTMuIFvbxT1XljZ80kPP9/view?usp=sharing",
-            label: "開啟婚禮流程",
-          },
         },
       ],
     },

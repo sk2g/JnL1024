@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>J &amp; L · 1024</title>
     <meta name="description" content="J 與 L 的婚禮網站。查看 Google Drive 婚照，並用姓名或稱呼找到自己的桌次。" />
-    <meta name="theme-color" content="#d7d7d2" />
+    <meta name="theme-color" content="#eef3ea" />
     <meta property="og:title" content="J &amp; L · 1024" />
     <meta property="og:description" content="查看婚照與座位表。" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%23f4f4f2' width='64' height='64'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='sans-serif' font-size='22' fill='%23666'%3EJ%26L%3C/text%3E%3C/svg%3E" />
@@ -23,18 +23,27 @@
         <a href="#seating">座位</a>
       </nav>
     </header>
+    <nav class="jump" aria-label="快速前往">
+      <button class="jump-toggle" type="button" aria-expanded="false" aria-controls="jump-list">目錄</button>
+      <div class="jump-panel" id="jump-list" hidden>
+        <a href="#top">封面</a>
+        <a href="#day">當日</a>
+        <a href="#gallery">婚照</a>
+        <a href="#seating">座位</a>
+      </div>
+    </nav>
 
     <main>
       <section class="hero">
         <svg class="branch" viewBox="0 0 420 720" aria-hidden="true">
-          <g fill="none" stroke="#7d8b78" stroke-linecap="round" stroke-width="2">
+          <g fill="none" stroke="#6d8468" stroke-linecap="round" stroke-width="2.4">
             <path d="M40 700 C80 520 70 360 150 210" />
             <path d="M92 560 C140 530 170 500 210 470" />
             <path d="M108 470 C160 450 190 410 230 360" />
             <path d="M128 390 C180 360 210 320 250 270" />
             <path d="M146 300 C190 270 230 250 280 220" />
           </g>
-          <g fill="#8fa08a">
+          <g fill="#7f9878">
             <ellipse cx="214" cy="468" rx="28" ry="12" transform="rotate(-28 214 468)" />
             <ellipse cx="186" cy="498" rx="24" ry="10" transform="rotate(24 186 498)" />
             <ellipse cx="236" cy="358" rx="30" ry="12" transform="rotate(-18 236 358)" />
@@ -78,7 +87,7 @@
 
       <section id="seating" class="section">
         <h2 class="script">座位</h2>
-        <p class="lead">輸入自己的姓名或稱呼，找出坐在哪一桌。</p>
+        <p class="lead">輸入自己的姓名或稱呼，找出坐在哪一桌。桌圖會標出那一桌，並從入口指引過去。</p>
         <p class="sample-note" id="sample-note" hidden>這份座位表仍是範例。換成正式賓客後，請把 wedding-data.js 的 sampleSeating 改成 false。</p>
 
         <form id="seat-form" class="search-form" role="search">
@@ -87,7 +96,18 @@
           <button class="text-button" id="search-clear" type="button" hidden>清除</button>
         </form>
         <div id="search-result" class="search-result" aria-live="polite"></div>
-        <div class="hall" id="hall" aria-label="桌次配置"></div>
+        <figure class="floorplan" id="floorplan">
+          <img src="floorplan.jpg" alt="喜來登喜宴桌圖。入口在下方中央，沿粉色走道進入。" />
+          <svg viewBox="0 0 612 768" aria-hidden="true">
+            <defs>
+              <marker id="route-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 Z" />
+              </marker>
+            </defs>
+            <text class="entrance-label" x="293.6" y="706" text-anchor="middle">入口</text>
+            <g id="route-layer"></g>
+          </svg>
+        </figure>
         <div class="table-list" id="table-list"></div>
       </section>
     </main>
