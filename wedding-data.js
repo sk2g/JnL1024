@@ -70,7 +70,7 @@ window.WEDDING = {
       ],
     },
   ],
-  driveFolder: "",
+  driveFolder: "https://drive.google.com/drive/folders/1VIgOUc3Aln5ZzENdWPeU1Xq2zGbbfcZP?usp=sharing",
   photos: [],
   tables: [
     {
