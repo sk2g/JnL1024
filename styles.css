@@ -442,6 +442,7 @@ input {
 
 .search-result p {
   margin: 0;
+  white-space: pre-line;
 }
 
 .result-list {
@@ -470,9 +471,21 @@ input {
 }
 
 .result-table {
+  display: grid;
+  justify-items: end;
   align-self: center;
-  color: var(--sage-deep);
+  text-align: right;
   white-space: nowrap;
+}
+
+.result-table-no {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.result-table-name {
+  color: var(--sage-deep);
+  font-size: 0.86rem;
 }
 
 .hall {
@@ -703,8 +716,7 @@ dialog p {
   }
 
   .result-person {
-    flex-direction: column;
-    gap: 0.1rem;
+    align-items: center;
   }
 }
 

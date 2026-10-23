@@ -236,6 +236,25 @@ function tableCaption(table) {
   return table.label ? `第 ${table.id} 桌　${table.label}` : `第 ${table.id} 桌`;
 }
 
+function searchSummary(matches) {
+  const groups = [];
+  matches.forEach(({ guest, table }) => {
+    const key = normalize(guest.name);
+    let group = groups.find((item) => item.key === key);
+    if (!group) {
+      group = { key, name: guestLabel(guest), places: [] };
+      groups.push(group);
+    }
+    const place = tableCaption(table);
+    if (!group.places.includes(place)) group.places.push(place);
+  });
+  return groups.map((group) => (
+    group.places.length > 1
+      ? `${group.name} 有 ${group.places.length} 位：${group.places.join("、")}。`
+      : `${group.name} 在${group.places[0]}。`
+  )).join("\n");
+}
+
 function renderSeating() {
   hall.replaceChildren();
   tableList.replaceChildren();
@@ -334,9 +353,14 @@ function searchGuests(raw, options = {}) {
     return;
   }
 
+  matches.sort((a, b) => {
+    const rank = (guest) => (normalize(guest.name) === query ? 0 : 1);
+    return rank(a.guest) - rank(b.guest);
+  });
+
   const summary = matches.length === 1
     ? `${guestLabel(matches[0].guest)} 在${tableCaption(matches[0].table)}。`
-    : `找到 ${matches.length} 位，請點名字查看桌次。`;
+    : searchSummary(matches);
   resultBox.append(el("p", "", summary));
 
   if (matches.length > 1) {
@@ -350,7 +374,10 @@ function searchGuests(raw, options = {}) {
       who.append(el("span", "result-name", guestLabel(guest)));
       const extra = [guestExtra(guest), guest.diet].filter(Boolean).join(" · ");
       if (extra) who.append(el("span", "result-title", extra));
-      button.append(who, el("span", "result-table", tableCaption(table)));
+      const place = el("span", "result-table");
+      place.append(el("span", "result-table-no", `第 ${table.id} 桌`));
+      if (table.label) place.append(el("span", "result-table-name", table.label));
+      button.append(who, place);
       button.addEventListener("click", () => focusTable(table.id));
       list.append(button);
     });

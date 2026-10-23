@@ -2,7 +2,7 @@
    driveFolder：貼上 Google Drive 資料夾的分享連結（知道連結的任何人可檢視）
    photos：想用網站上的照片牆時，把每一張照片的分享連結放進來
    tables：座位。id 是桌號，label 是桌名。
-   guests：name 是姓名或稱呼，title 是補充，diet 是飲食，count 是同一稱呼的人數
+   guests：name 是姓名或稱呼，title 是補充，diet 是飲食備註，count 是同一稱呼的人數
 */
 window.WEDDING = {
   partnerA: "J",
@@ -89,7 +89,7 @@ window.WEDDING = {
         { name: "玉春姑姑", count: 3 },
         { name: "恬" },
         { name: "林東慶" },
-        { name: "林楚惟" },
+        { name: "林楚惟", diet: "嬰兒椅" },
         { name: "東慶爸", diet: "素食" },
         { name: "東慶媽", diet: "素食" },
       ],
@@ -158,7 +158,7 @@ window.WEDDING = {
       guests: [
         { name: "櫻木" },
         { name: "GC" },
-        { name: "晴妹" },
+        { name: "晴妹", diet: "嬰兒椅" },
         { name: "詩旋" },
         { name: "佳碩" },
         { name: "毛毛" },
@@ -171,7 +171,6 @@ window.WEDDING = {
       id: "13",
       label: "女方家長朋友",
       guests: [
-        { name: "女方家長朋友" },
         { name: "君如阿姨" },
         { name: "開珍阿姨" },
         { name: "義榮叔叔" },
@@ -236,11 +235,11 @@ window.WEDDING = {
         { name: "Peace" },
         { name: "Owen" },
         { name: "Jou" },
-        { name: "Stacy" },
-        { name: "林先生" },
-        { name: "新徹" },
-        { name: "冠樺" },
-        { name: "咪咪" },
+        { name: "Shaka" },
+        { name: "Riley" },
+        { name: "Wayne" },
+        { name: "Eddy" },
+        { name: "Borris" },
       ],
     },
   ],
