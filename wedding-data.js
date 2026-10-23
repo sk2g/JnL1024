@@ -339,6 +339,7 @@ window.WEDDING = {
         { name: "Sony" },
         { name: "阿德" },
         { name: "小蔡" },
+      },
     },
     {
       id: "16",
