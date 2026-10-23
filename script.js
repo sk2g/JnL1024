@@ -340,26 +340,20 @@ function renderGallery() {
   galleryRoot.replaceChildren();
   const photos = photoEntries();
   const folderId = extractId(data.driveFolder);
-  const tools = el("div", "gallery-tools");
 
   if (photos.length) {
     const carousel = renderCarousel(photos);
     galleryRoot.append(carousel.deck, carousel.count);
     requestAnimationFrame(carousel.sync);
-  }
-
-  if (folderId) {
-    if (!photos.length) galleryRoot.append(renderFolder(folderId));
-    const link = el("a", "drive-link", "在 Google Drive 開啟相簿");
-    link.href = `https://drive.google.com/drive/folders/${encodeURIComponent(folderId)}`;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    tools.append(link);
-    galleryRoot.append(tools);
     return;
   }
 
-  if (!photos.length) galleryRoot.append(renderGuide());
+  if (folderId) {
+    galleryRoot.append(renderFolder(folderId));
+    return;
+  }
+
+  galleryRoot.append(renderGuide());
 }
 
 function tableCaption(table) {

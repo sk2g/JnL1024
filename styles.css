@@ -287,16 +287,6 @@ input {
   background: #f3f3f1;
 }
 
-.gallery-tools {
-  text-align: center;
-}
-
-.drive-link {
-  display: inline-block;
-  margin-top: 0.9rem;
-  color: #6d6d6d;
-}
-
 .photo-deck {
   position: relative;
   width: min(40rem, 100%);
