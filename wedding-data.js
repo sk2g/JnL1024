@@ -329,21 +329,6 @@ window.WEDDING = {
       id: "15",
       label: "男方同學",
       guests: [
-        { name: "二潤" },
-        { name: "Jessica" },
-        { name: "沛庭" },
-        { name: "沛勳" },
-        { name: "Stacy" },
-        { name: "林先生" },
-        { name: "新徹" },
-        { name: "冠樺" },
-        { name: "咪咪" },
-      ],
-    },
-    {
-      id: "16",
-      label: "男方同學/朋友",
-      guests: [
         { name: "思蒝" },
         { name: "家森" },
         { name: "小葉" },
@@ -354,6 +339,20 @@ window.WEDDING = {
         { name: "Sony" },
         { name: "阿德" },
         { name: "小蔡" },
+    },
+    {
+      id: "16",
+      label: "男方同學/朋友",
+      guests: [
+        { name: "二潤" },
+        { name: "Jessica" },
+        { name: "沛庭" },
+        { name: "沛勳" },
+        { name: "Stacy" },
+        { name: "林先生" },
+        { name: "新徹" },
+        { name: "冠樺" },
+        { name: "咪咪" },  
       ],
     },
     {
