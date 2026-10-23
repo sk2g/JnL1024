@@ -500,6 +500,38 @@ function renderSeating() {
     }
     tableList.append(card);
   });
+  captureTableOrder();
+}
+
+let tableOrder = [];
+let pinnedTable = "";
+
+function captureTableOrder() {
+  tableOrder = [...tableList.children];
+}
+
+function placeTables(ids) {
+  if (!tableOrder.length) return;
+  if (!ids.length) {
+    tableList.replaceChildren(...tableOrder);
+    return;
+  }
+  const wanted = new Set(ids.map(String));
+  const front = ids
+    .map((id) => tableOrder.find((card) => card.dataset.table === String(id)))
+    .filter(Boolean);
+  const rest = tableOrder.filter((card) => !wanted.has(card.dataset.table));
+  tableList.replaceChildren(...front, ...rest);
+}
+
+function deviceView() {
+  return window.matchMedia("(max-width: 820px), (pointer: coarse)").matches;
+}
+
+function bringTableUp(id, scroll) {
+  placeTables([String(id)]);
+  if (!scroll || !deviceView()) return;
+  document.getElementById(`table-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function paintSelection(id) {
@@ -511,7 +543,9 @@ function paintSelection(id) {
 
 function focusTable(id) {
   paintSelection(id);
-  floorplan?.scrollIntoView({ behavior: "smooth", block: "center" });
+  bringTableUp(id, true);
+  pinnedTable = String(id);
+  if (!deviceView()) floorplan?.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 function searchGuests(raw, options = {}) {
@@ -536,6 +570,8 @@ function searchGuests(raw, options = {}) {
   });
 
   if (!query) {
+    pinnedTable = "";
+    placeTables([]);
     paintSelection("");
     resultBox.replaceChildren();
     return;
@@ -549,6 +585,8 @@ function searchGuests(raw, options = {}) {
 
   resultBox.replaceChildren();
   if (!matches.length) {
+    pinnedTable = "";
+    placeTables([]);
     paintSelection("");
     resultBox.append(el("p", "", "找不到這位賓客。可以試試全名、暱稱，或舅舅、同事這類稱呼。"));
     return;
@@ -559,12 +597,22 @@ function searchGuests(raw, options = {}) {
     return rank(a.guest) - rank(b.guest);
   });
 
-  const summary = matches.length === 1
-    ? `${guestLabel(matches[0].guest)} 在${tableCaption(matches[0].table)}。從入口沿著箭頭走到這一桌。`
-    : `${searchSummary(matches)}\n點一位，桌圖會從入口標出路線。`;
+  const matchedIds = [];
+  matches.forEach(({ table }) => {
+    const id = String(table.id);
+    if (!matchedIds.includes(id)) matchedIds.push(id);
+  });
+
+  const summary = matchedIds.length > 1
+    ? `${searchSummary(matches)}\n點一位，桌圖會從入口標出路線。`
+    : matches.length === 1
+      ? `${guestLabel(matches[0].guest)} 在${tableCaption(matches[0].table)}。從入口沿著箭頭走到這一桌。`
+      : searchSummary(matches);
   resultBox.append(el("p", "", summary));
 
-  if (matches.length > 1) {
+  if (matchedIds.length > 1) {
+    pinnedTable = "";
+    placeTables(matchedIds);
     paintSelection("");
     const list = el("div", "result-list");
     matches.forEach(({ guest, table }) => {
@@ -586,8 +634,19 @@ function searchGuests(raw, options = {}) {
     return;
   }
 
-  if (options.focus) focusTable(matches[0].table.id);
-  else paintSelection(matches[0].table.id);
+  const id = String(matches[0].table.id);
+  const named = matches.every(({ guest }) => (
+    [guest.name, guest.title, ...(guest.aliases || [])]
+      .map(normalize)
+      .filter(Boolean)
+      .includes(query)
+  ));
+  paintSelection(id);
+  bringTableUp(id, deviceView() && (options.focus || (named && pinnedTable !== id)));
+  pinnedTable = id;
+  if (!deviceView() && options.focus) {
+    floorplan?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 }
 
 fillHero();
