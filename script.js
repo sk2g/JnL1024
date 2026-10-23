@@ -122,6 +122,49 @@ function renderDay() {
   if (data.venue) card.append(el("p", "info-place", data.venue));
   if (data.timeLabel && data.weekday) card.append(el("p", "info-place", data.weekday));
   grid.replaceChildren(card);
+  renderTimeline();
+}
+
+function renderTimeline() {
+  const root = document.getElementById("timeline");
+  if (!root) return;
+  const stops = data.schedule || [];
+  root.replaceChildren();
+  root.hidden = !stops.length;
+  stops.forEach((stop) => {
+    const station = el("article", "station");
+    station.append(el("p", "station-stop", stop.stop || ""));
+    station.append(el("h3", "", stop.title || ""));
+    if (stop.place) station.append(el("p", "station-place", stop.place));
+    const events = el("ol", "events");
+    (stop.events || []).forEach((item) => {
+      const li = document.createElement("li");
+      if (item.time) li.append(el("p", "event-time", item.time));
+      li.append(el("p", "event-title", item.title || ""));
+      if (item.note) li.append(el("p", "event-note", item.note));
+      if (item.stages?.length) {
+        const details = document.createElement("details");
+        details.className = "event-details";
+        const summary = document.createElement("summary");
+        summary.textContent = item.stagesTitle || "查看階段";
+        details.append(summary);
+        const list = el("ul", "stage-list");
+        item.stages.forEach((stage) => list.append(el("li", "", stage)));
+        details.append(list);
+        li.append(details);
+      }
+      if (item.link?.href) {
+        const link = el("a", "doc-link", item.link.label || "開啟");
+        link.href = item.link.href;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        li.append(link);
+      }
+      events.append(li);
+    });
+    station.append(events);
+    root.append(station);
+  });
 }
 
 function fillHero() {

@@ -378,6 +378,110 @@ input {
   margin-top: 0.85rem;
 }
 
+.timeline {
+  width: min(40rem, 100%);
+  margin: 1.5rem auto 0;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.timeline:empty,
+.timeline[hidden] {
+  display: none;
+}
+
+.station {
+  padding: 1.25rem 1.25rem 0.45rem;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.station-stop {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+}
+
+.station h3 {
+  margin: 0.15rem 0 0;
+  font-family: "Noto Sans TC", Roboto, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.station-place {
+  margin: 0.2rem 0 1rem;
+  color: var(--muted);
+}
+
+.events {
+  list-style: none;
+  margin: 0 0 0.4rem 0.4rem;
+  padding: 0.15rem 0 0.2rem 1.15rem;
+  border-left: 1px solid #e3e3e3;
+}
+
+.events > li {
+  position: relative;
+  padding: 0 0 1.05rem;
+}
+
+.events > li::before {
+  content: "";
+  position: absolute;
+  left: -1.48rem;
+  top: 0.28rem;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--sage-deep);
+}
+
+.event-time {
+  margin: 0;
+  font-family: Roboto, "Noto Sans TC", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.event-title,
+.event-note {
+  margin: 0.12rem 0 0;
+}
+
+.event-note,
+.stage-list {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.event-details {
+  margin-top: 0.45rem;
+}
+
+.event-details summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--sage-deep);
+}
+
+.stage-list {
+  margin: 0.4rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.stage-list li + li {
+  margin-top: 0.22rem;
+}
+
+.doc-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #5f6f60;
+}
+
 .search-form {
   display: flex;
   align-items: center;

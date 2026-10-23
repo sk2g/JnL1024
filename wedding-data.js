@@ -3,6 +3,7 @@
    photos：想用網站上的照片牆時，把每一張照片的分享連結放進來
    tables：座位。id 是桌號，label 是桌名。
    guests：name 是姓名或稱呼，title 是補充，diet 是飲食備註，count 是同一稱呼的人數
+   schedule：當天行程。events 是時間軸，stages 是可展開的階段
 */
 window.WEDDING = {
   partnerA: "J",
@@ -13,6 +14,62 @@ window.WEDDING = {
   timeLabel: "",
   venue: "",
   sampleSeating: false,
+  schedule: [
+    {
+      stop: "第一站",
+      title: "聖家堂婚配彌撒",
+      place: "臺北市天主教聖家堂",
+      events: [
+        { time: "13:30–13:50", title: "開放入座" },
+        {
+          time: "14:00",
+          title: "儀式開始",
+          note: "請將手機轉為靜音。聖堂內保持安靜，寒暄可以在聖堂外。領聖體時，非天主教教友及尚未領洗者請留在座位上。",
+          stagesTitle: "儀式階段",
+          stages: [
+            "歡迎禮、新人進堂",
+            "家長奉獻同心燭",
+            "致候、懺悔、垂憐、光榮頌",
+            "聖道禮儀：讀經、福音、講道",
+            "結婚典禮：徵詢、宣誓、交換信物",
+            "新人點燃同心燭、信友禱詞",
+            "感恩禮與領聖體",
+            "禮成降福、用印、拜謝",
+          ],
+          link: {
+            href: "https://docs.google.com/presentation/d/1ZnlolUp1qNwPXBu4yupwFA6fCYesHXjC/edit?usp=sharing",
+            label: "開啟儀式投影片",
+          },
+        },
+        { time: "15:30", title: "婚配彌撒結束，親友合照" },
+      ],
+    },
+    {
+      stop: "第二站",
+      title: "喜來登飯店晚宴",
+      place: "喜來登飯店 · 瑞穗園",
+      events: [
+        { time: "18:00", title: "入席" },
+        {
+          time: "18:30",
+          title: "開席",
+          note: "主婚人與新人進場、倒香檳、致詞、舉杯，接著由神父祝福。",
+          stagesTitle: "晚宴流程",
+          stages: [
+            "18:30 進場、倒香檳、致詞、舉杯、神父祝福",
+            "開席後新人於主桌用餐",
+            "19:30 微電影與第二次進場",
+            "19:40–20:00 逐桌敬酒",
+            "20:30 送客",
+          ],
+          link: {
+            href: "https://drive.google.com/file/d/17VthVzeSFg7QTMuIFvbxT1XljZ80kPP9/view?usp=sharing",
+            label: "開啟婚禮流程",
+          },
+        },
+      ],
+    },
+  ],
   driveFolder: "",
   photos: [],
   tables: [
