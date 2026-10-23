@@ -785,17 +785,17 @@ input {
 }
 
 .route-line {
-  stroke: #c2410c;
-  stroke-width: 3.2;
+  stroke: #1fdb4a;
+  stroke-width: 3.6;
 }
 
 #route-arrow path {
-  fill: #c2410c;
+  fill: #1fdb4a;
 }
 
 .table-spot {
-  fill: rgba(226, 91, 42, 0.46);
-  stroke: #c2410c;
+  fill: rgba(31, 219, 74, 0.42);
+  stroke: #14c43e;
   stroke-width: 2.6;
 }
 
