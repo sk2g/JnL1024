@@ -101,7 +101,6 @@ window.WEDDING = {
     "https://drive.google.com/file/d/1EiMa0DH1JspFhp0GcW1xC2r493Th-nzO/view",
     "https://drive.google.com/file/d/1BXGkuYndzLqqcY7FGljZwxUiyCJ7MWVN/view",
     "https://drive.google.com/file/d/1u51-rL3SJyy_KJiaIM9ZHeU0YtYGWIgq/view",
-    "https://drive.google.com/file/d/14MgVjQJaMHPhhuqcljc81ukeYuDo9Xgi/view",
     "https://drive.google.com/file/d/172MVUagWPX-1aHMuxMF2l_RInoGpQj3v/view",
     "https://drive.google.com/file/d/1PTHZmBj9VUQJETrEh5uLaQkdJ00PRy-D/view",
     "https://drive.google.com/file/d/1jDceEbOMcLFjspWc4EbiilgQwswOtseI/view",
