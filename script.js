@@ -250,6 +250,92 @@ function renderPhoto(entry) {
   return figure;
 }
 
+function renderCarousel(photos) {
+  const deck = el("div", "photo-deck");
+  const reel = el("div", "photo-reel");
+  reel.tabIndex = 0;
+  reel.setAttribute("role", "region");
+  reel.setAttribute("aria-roledescription", "carousel");
+  reel.setAttribute("aria-label", "婚照");
+
+  photos.forEach((entry, index) => {
+    const slide = el("figure", "photo-slide");
+    slide.setAttribute("aria-roledescription", "slide");
+    slide.setAttribute("aria-label", `第 ${index + 1} 張，共 ${photos.length} 張`);
+    const candidates = imageCandidates(entry);
+    const image = document.createElement("img");
+    image.alt = entry.caption || `婚照 ${index + 1}`;
+    image.decoding = "async";
+    image.loading = index < 2 ? "eager" : "lazy";
+    if (!candidates.length) {
+      slide.classList.add("is-broken");
+      slide.append(el("p", "", "這張照片暫時無法顯示"));
+    } else {
+      image.dataset.i = "0";
+      image.src = candidates[0];
+      image.addEventListener("error", () => {
+        const next = Number(image.dataset.i || 0) + 1;
+        if (next < candidates.length) {
+          image.dataset.i = String(next);
+          image.src = candidates[next];
+          return;
+        }
+        slide.classList.add("is-broken");
+        image.replaceWith(el("p", "", "這張照片暫時無法顯示"));
+      });
+      slide.append(image);
+    }
+    reel.append(slide);
+  });
+
+  const prev = document.createElement("button");
+  prev.type = "button";
+  prev.className = "photo-nav is-prev";
+  prev.setAttribute("aria-label", "上一張");
+  prev.textContent = "‹";
+  const next = document.createElement("button");
+  next.type = "button";
+  next.className = "photo-nav is-next";
+  next.setAttribute("aria-label", "下一張");
+  next.textContent = "›";
+  const count = el("p", "photo-count", `1 / ${photos.length}`);
+  count.setAttribute("aria-live", "polite");
+
+  const currentIndex = () => {
+    const width = reel.clientWidth || 1;
+    return Math.max(0, Math.min(photos.length - 1, Math.round(reel.scrollLeft / width)));
+  };
+
+  const sync = () => {
+    const index = currentIndex();
+    count.textContent = `${index + 1} / ${photos.length}`;
+    prev.disabled = index <= 0;
+    next.disabled = index >= photos.length - 1;
+  };
+
+  const go = (delta) => {
+    const index = currentIndex() + delta;
+    if (index < 0 || index >= photos.length) return;
+    reel.scrollTo({ left: index * reel.clientWidth, behavior: "smooth" });
+  };
+
+  prev.addEventListener("click", () => go(-1));
+  next.addEventListener("click", () => go(1));
+  reel.addEventListener("scroll", sync, { passive: true });
+  reel.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      go(-1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      go(1);
+    }
+  });
+
+  deck.append(reel, prev, next);
+  return { deck, count, sync };
+}
+
 function renderGallery() {
   galleryRoot.replaceChildren();
   const photos = photoEntries();
@@ -257,9 +343,9 @@ function renderGallery() {
   const tools = el("div", "gallery-tools");
 
   if (photos.length) {
-    const grid = el("div", "photo-grid");
-    photos.forEach((entry) => grid.append(renderPhoto(entry)));
-    galleryRoot.append(grid);
+    const carousel = renderCarousel(photos);
+    galleryRoot.append(carousel.deck, carousel.count);
+    requestAnimationFrame(carousel.sync);
   }
 
   if (folderId) {
