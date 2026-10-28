@@ -192,7 +192,7 @@ function pad(value) {
 
 function tick() {
   const weddingDate = data.dateISO ? new Date(data.dateISO) : null;
-  const diff = weddingDate ? Math.max(0, weddingDate.getTime() - Date.now()) : 0;
+  const diff = weddingDate ? Math.max(0, Date.now() - weddingDate.getTime()) : 0;
   document.getElementById("days").textContent = pad(Math.floor(diff / 86400000));
   document.getElementById("hours").textContent = pad(Math.floor((diff % 86400000) / 3600000));
   document.getElementById("minutes").textContent = pad(Math.floor((diff % 3600000) / 60000));

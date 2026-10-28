@@ -151,11 +151,18 @@ input {
   opacity: 0.9;
 }
 
+.clock-label {
+  margin: 1.15rem 0 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+  color: #5c6358;
+}
+
 .clock {
   display: flex;
   justify-content: center;
   gap: 0.55rem;
-  margin: 1.5rem 0 0.3rem;
+  margin: 0.55rem 0 0.3rem;
 }
 
 .clock div {
