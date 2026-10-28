@@ -220,7 +220,7 @@ input {
 .film-frame {
   position: relative;
   width: min(960px, 100%);
-  margin: 0 auto;
+  margin: 1.15rem auto 0;
   aspect-ratio: 16 / 9;
   background: #1c1c1c;
   border-radius: 0.7rem;
