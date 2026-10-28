@@ -837,3 +837,69 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") setJump(false);
 });
+
+const filmFrame = document.getElementById("film-player");
+const filmSound = document.getElementById("film-sound");
+
+function setupFilm() {
+  if (!filmFrame || !window.Vimeo) return;
+  const player = new window.Vimeo.Player(filmFrame);
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let started = false;
+
+  function showSound(visible) {
+    if (filmSound) filmSound.hidden = !visible;
+  }
+
+  async function playFromHere(withSound) {
+    if (withSound) {
+      await player.setMuted(false);
+      await player.setVolume(1);
+    } else {
+      await player.setMuted(true);
+    }
+    await player.play();
+    started = true;
+    const muted = await player.getMuted();
+    const volume = await player.getVolume();
+    showSound(muted || volume === 0);
+  }
+
+  async function start() {
+    if (started || reduced) return;
+    try {
+      await playFromHere(true);
+    } catch {
+      try {
+        await playFromHere(false);
+      } catch {
+        showSound(true);
+      }
+    }
+  }
+
+  player.on("volumechange", (data) => {
+    if (!data.muted && data.volume > 0) showSound(false);
+  });
+
+  filmSound?.addEventListener("click", async () => {
+    try {
+      await playFromHere(true);
+    } catch {
+      showSound(true);
+    }
+  });
+
+  const target = filmFrame.closest(".film-frame") || filmFrame;
+  if (!reduced && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        start();
+        observer.disconnect();
+      }
+    }, { threshold: 0.55 });
+    observer.observe(target);
+  }
+}
+
+setupFilm();
